@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — GDBx</title>
+<script src="https://cdn.tailwindcss.com"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>body{font-family:ui-sans-serif,system-ui,sans-serif}.mono{font-family:ui-monospace,monospace}</style>
+</head><body class="bg-slate-950 text-slate-100 min-h-screen">
+<header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+    <a href="/" class="flex items-center gap-3 shrink-0">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-400 flex items-center justify-center font-bold text-slate-950"><i class="fa-solid fa-database text-sm"></i></div>
+      <div class="hidden sm:block">
+        <div class="font-extrabold text-lg leading-none tracking-tight bg-gradient-to-r from-violet-400 via-fuchsia-300 to-cyan-300 bg-clip-text text-transparent">GDBx</div>
+        <div class="flex items-center gap-1.5 -mt-0.5"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span class="text-xs mono text-slate-500">v1.4.0 · Online</span></div>
+      </div>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-1 text-sm font-medium text-slate-300">
+      <a href="/GlobalMesh" class="px-2.5 py-1.5 rounded-lg hover:bg-slate-800 hover:text-cyan-300 transition-colors">Mesh</a>
+      <a href="/Api" class="px-2.5 py-1.5 rounded-lg hover:bg-slate-800 hover:text-emerald-300 transition-colors">API</a>
+      <a href="/TLD" class="px-2.5 py-1.5 rounded-lg hover:bg-slate-800 hover:text-amber-300 transition-colors">TLD</a>
+      <a href="/Dashboard" class="px-2.5 py-1.5 rounded-lg hover:bg-slate-800 hover:text-cyan-300 transition-colors">Dashboard</a>
+      <a href="/RoadMap" class="px-2.5 py-1.5 rounded-lg hover:bg-slate-800 hover:text-rose-300 transition-colors">Roadmap</a>
+      <div class="relative group">
+        <button class="px-2.5 py-1.5 rounded-lg hover:bg-slate-800 hover:text-violet-300 flex items-center gap-1">More <i class="fa-solid fa-chevron-down text-xs"></i></button>
+        <div class="absolute right-0 top-full mt-2 w-48 rounded-xl border border-slate-700 bg-slate-900 shadow-xl p-1 hidden group-hover:block z-50">
+          <a href="#protocol" class="block px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 text-sm">Protocol</a>
+          <a href="#transports" class="block px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 text-sm">Transports</a>
+          <a href="#playground" class="block px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 text-sm">Playground</a>
+          <a href="#ftp" class="block px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 text-sm">FTP</a>
+          <a href="#sandbox" class="block px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 text-sm">Sandbox</a>
+          <a href="#security" class="block px-3 py-1.5 rounded-lg hover:bg-slate-800 text-slate-300 text-sm">Security</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="flex items-center gap-2 shrink-0">
+      <a href="https://github.com/OpenCodeWEB/GDBX" target="_blank" class="hidden sm:inline-flex w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 items-center justify-center text-slate-400 hover:text-white"><i class="fa-brands fa-github text-sm"></i></a>
+      <span id="auth-bar" class="flex items-center gap-2"></span>
+      <button id="mobile-menu-btn" class="lg:hidden w-8 h-8 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400"><i class="fa-solid fa-bars text-sm"></i></button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-slate-800 bg-slate-900">
+    <div class="px-4 py-3 space-y-1">
+      <a href="/GlobalMesh" class="block px-3 py-2 rounded-lg bg-slate-800 text-cyan-300">Global Mesh</a>
+      <a href="/Api" class="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-300">API</a>
+      <a href="/TLD" class="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-300">TLD</a>
+      <a href="/Dashboard" class="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-300">Dashboard</a>
+      <a href="/RoadMap" class="block px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-300">Roadmap</a>
+      <div class="pt-2 border-t border-slate-800 grid grid-cols-2 gap-1 text-sm">
+        <a href="#protocol" class="px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">Protocol</a>
+        <a href="#playground" class="px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">Playground</a>
+        <a href="#ftp" class="px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">FTP</a>
+        <a href="#security" class="px-3 py-2 rounded-lg hover:bg-slate-800 text-slate-400">Security</a>
+      </div>
+    </div>
+  </div>
+</header>
+<main class="max-w-5xl mx-auto px-4 py-8 space-y-6">
+<div id="not-logged" class="hidden text-center py-16"><i class="fa-solid fa-lock text-4xl text-slate-600"></i><h2 class="text-2xl font-bold mt-4">Not logged in</h2><p class="text-slate-400 mt-2">Connect wallet via seed or MetaMask to view dashboard.</p><button onclick="location.href='/'" class="mt-6 px-6 py-3 rounded-xl bg-violet-600 text-white font-bold">Go to Home → Connect</button></div>
+<div id="dashboard" class="hidden space-y-6">
+<div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6"><h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-wallet text-emerald-400"></i> Wallet</h3><div class="mt-3 space-y-2 mono text-xs"><div class="flex justify-between"><span class="text-slate-500">EVM Address</span><span id="evm-addr" class="text-emerald-300"></span></div><div class="flex justify-between"><span class="text-slate-500">GDBx Address</span><span id="gdbx-addr" class="text-violet-300"></span></div><div class="flex gap-2 mt-3"><button id="reveal-seed" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs">Reveal Seed (12 words)</button><button id="copy-evm" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs">Copy EVM</button></div><div id="seed-display" class="hidden mt-3 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 mono text-xs text-amber-300"></div></div></div>
+<div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6"><h3 class="font-bold flex items-center gap-2"><i class="fa-brands fa-github text-violet-400"></i> GitHub Verification</h3><div id="github-status" class="mt-3 text-sm"></div></div>
+<div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6"><h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-key text-amber-400"></i> API Keys <span id="key-quota" class="text-xs text-slate-500"></span></h3><div id="key-list" class="mt-3 space-y-2"></div><div class="flex gap-2 mt-4"><input id="new-key-label" placeholder="label" class="flex-1 mono text-xs bg-slate-800 border border-slate-700 rounded-lg px-3 py-2"><button id="create-key-btn" class="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-slate-950 text-xs font-bold">Create GDBx****AB</button></div><div id="key-result" class="mt-2 mono text-xs"></div></div>
+<div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6"><h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-hand-holding-heart text-emerald-400"></i> DSGx Profile</h3><div id="dsgx-profile" class="mt-3 text-sm text-slate-400">Loading...</div></div>
+<div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6"><h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-money-bill-transfer text-cyan-400"></i> GDMx — Multi-Network</h3><p class="text-xs text-slate-500 mt-1">Ethereum, Polygon, BSC, Arbitrum, Optimism, Base — all at once, fastest wins.</p><div id="gdmx-networks" class="mt-3 grid grid-cols-3 gap-2 text-xs"></div></div>
+</div>
+</main>
+<script type="module">
+const WORKER = "https://gdbx.xup.workers.dev";
+function getToken(){ return localStorage.getItem("gdbx_token")||""; }
+async function fetchMe(){
+  const tok=getToken();
+  const r=await fetch(`${WORKER}/auth/me`,{headers: tok?{authorization:`Bearer ${tok}`}:{}});
+  return r.json().catch(()=>({ok:false}));
+}
+async function load(){
+  const me = await fetchMe();
+  if (!me.ok) { document.getElementById("not-logged").classList.remove("hidden"); return; }
+  document.getElementById("dashboard").classList.remove("hidden");
+  document.getElementById("evm-addr").textContent = me.siweAddr || "—";
+  document.getElementById("gdbx-addr").textContent = me.addr || "—";
+  document.getElementById("github-status").innerHTML = me.verified ? `<span class="text-emerald-300">✓ Verified @${me.githubLogin}</span> <a href="https://dsgx.pages.dev/${me.githubLogin}" class="ml-2 text-cyan-300 hover:underline">dsgx.pages.dev/${me.githubLogin} ↗</a>` : `<span class="text-amber-300">Not verified</span> — <button onclick="location.href='/#auth'" class="px-3 py-1 rounded bg-violet-600 text-white text-xs">Verify GitHub</button> <span class="text-xs text-slate-500">(unlimited API keys after verify)</span>`;
+  // API keys
+  const r = await fetch(`${WORKER}/apikey`, { headers: getToken()?{authorization:`Bearer ${getToken()}`}:{} });
+  const j = await r.json();
+  document.getElementById("key-quota").textContent = j.quota ? `(${j.keys.length}/${j.quota.unlimited?"unlimited":j.quota.limit})` : "";
+  document.getElementById("key-list").innerHTML = j.keys?.length ? j.keys.map(k=> `<div class="flex items-center gap-2 p-2 rounded-lg bg-slate-950 border border-slate-800"><span class="mono text-xs text-amber-300">${k.prefix}</span><span class="text-xs text-slate-500">${k.label||""}</span><button data-copy="${k.hash}" class="copy-key px-2 py-1 rounded bg-cyan-600 hover:bg-cyan-500 text-white text-xs">Copy</button><button data-hash="${k.hash}" class="revoke px-2 py-1 rounded bg-rose-600 text-white text-xs">Revoke</button></div>`).join("") : "<div class='text-xs text-slate-600'>No keys</div>";
+  document.querySelectorAll(".copy-key").forEach(b=> b.onclick=async()=>{
+    const hash=b.dataset.copy;
+    const rr=await fetch(`${WORKER}/apikey/${hash}/raw`,{headers:getToken()?{authorization:`Bearer ${getToken()}`}:{}});
+    const jj=await rr.json();
+    if(jj.ok && jj.key){ await navigator.clipboard.writeText(jj.key); b.textContent="✓ Copied"; setTimeout(()=>b.textContent="Copy",1200); document.getElementById("key-result").innerHTML=`<span class="text-emerald-300">✓ Copied ${jj.prefix}</span>`; }
+    else { document.getElementById("key-result").innerHTML=`<span class="text-amber-300">⚠ ${jj.error||"Cannot copy"}</span> — <span class="text-slate-400">Revoke and create new key (new keys are copyable after reload)</span>`; }
+  });
+  document.querySelectorAll(".revoke").forEach(b=> b.onclick=async()=>{ await fetch(`${WORKER}/apikey/${b.dataset.hash}`,{method:"DELETE",headers:getToken()?{authorization:`Bearer ${getToken()}`}:{}}); load(); });
+  // DSGx profile
+  if (me.githubLogin) {
+    const pr = await fetch(`${WORKER}/dsgx/route/${me.githubLogin.toLowerCase()}`).then(r=>r.json()).catch(()=>({}));
+    document.getElementById("dsgx-profile").innerHTML = pr.ok ? `<a href="https://dsgx.pages.dev/${pr.route.login}" class="text-emerald-300 hover:underline">dsgx.pages.dev/${pr.route.login} ↗</a> — ${pr.route.addr.slice(0,12)}…` : "Not yet created — verify GitHub to auto-create";
+  } else document.getElementById("dsgx-profile").textContent = "Verify GitHub to create dsgx.pages.dev/<login>";
+  // GDMx networks
+  const nets = [
+    { id:"eth", name:"Ethereum", chainId:1, logo:"♦", fee:"~$0.50" },
+    { id:"polygon", name:"Polygon", chainId:137, logo:"⬣", fee:"~$0.01" },
+    { id:"bsc", name:"BSC", chainId:56, logo:"●", fee:"~$0.10" },
+    { id:"arbitrum", name:"Arbitrum", chainId:42161, logo:"▲", fee:"~$0.10" },
+    { id:"optimism", name:"Optimism", chainId:10, logo:"◉", fee:"~$0.10" },
+    { id:"base", name:"Base", chainId:8453, logo:"■", fee:"~$0.05" },
+  ];
+  document.getElementById("gdmx-networks").innerHTML = nets.map(n=> `<div class="p-2 rounded-lg bg-slate-950 border border-slate-800 text-center"><div>${n.logo} ${n.name}</div><div class="text-slate-500">Chain ${n.chainId} · ${n.fee}</div></div>`).join("");
+}
+document.getElementById("create-key-btn")?.addEventListener("click", async()=>{
+  const label=document.getElementById("new-key-label").value;
+  const r=await fetch(`${WORKER}/apikey`,{method:"POST",headers:{ "content-type":"application/json", ...(getToken()?{authorization:`Bearer ${getToken()}`}:{}) },body:JSON.stringify({label})});
+  const j=await r.json();
+  document.getElementById("key-result").innerHTML = j.ok ? `<span class="text-emerald-300">✓ ${j.prefix}</span><br><span class="text-amber-300 break-all">${j.key}</span> <button onclick="navigator.clipboard.writeText('${j.key}')" class="px-2 py-0.5 rounded bg-slate-800 text-xs">Copy</button>` : `<span class="text-rose-400">✗ ${j.error}</span>`;
+  if(j.ok) setTimeout(load,1500);
+});
+document.getElementById("reveal-seed")?.addEventListener("click", ()=>{
+  const s=localStorage.getItem("gdbx_seed")||localStorage.getItem("gdbx_seed_addr")||"Seed not stored (imported via MetaMask)";
+  const el=document.getElementById("seed-display");
+  el.textContent=s; el.classList.toggle("hidden");
+});
+document.getElementById("copy-evm")?.addEventListener("click", ()=>{ const a=document.getElementById("evm-addr").textContent; if(a!=="—") navigator.clipboard.writeText(a); });
+document.getElementById("logout-btn")?.addEventListener("click", async()=>{
+  const tok=getToken();
+  try { await fetch(`${WORKER}/auth/logout`,{method:"POST",headers:tok?{authorization:`Bearer ${tok}`}:{}}); } catch {}
+  localStorage.removeItem("gdbx_token"); localStorage.removeItem("gdbx_seed"); localStorage.removeItem("gdbx_seed_addr");
+  location.href="/";
+});
+load();
+</script>
+<script>document.getElementById('mobile-menu-btn')?.addEventListener('click',()=>document.getElementById('mobile-menu')?.classList.toggle('hidden'));</script>
+<script type="module" src="/js/gdbx-auth.js"></script></body></html>
+
+<!-- deploy 2026-08-30T08:02:58 -->
+
+<!-- copy fix 14:18:22 -->

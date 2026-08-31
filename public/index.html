@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSGx — Decentralized Support Gateway</title>
+<meta name="description" content="Support any developer with crypto or card. dsgx.pages.dev/<username> — funds go directly to developer's Web3 wallet.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>body{font-family:ui-sans-serif,system-ui,sans-serif}.mono{font-family:ui-monospace,monospace}.grid-bg{background-image:linear-gradient(rgba(148,163,184,.06)1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.06)1px,transparent 1px);background-size:42px 42px}</style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen antialiased">
+<header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+<a href="/" class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-cyan-400 flex items-center justify-center font-bold text-slate-950"><i class="fa-solid fa-hand-holding-heart"></i></div><span class="font-extrabold text-xl bg-gradient-to-r from-emerald-400 to-cyan-300 bg-clip-text text-transparent">DSGx</span><span class="text-xs ml-1 px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 mono">Decentralized Support Gateway</span></a>
+<nav class="flex items-center gap-4 text-sm font-medium text-slate-300"><a href="https://gdbx.pages.dev" class="hover:text-violet-300">GDBx</a><a href="/Dashboard" class="hover:text-cyan-300">Dashboard</a><a href="https://gdmx.pages.dev" class="hover:text-amber-300">GDMx</a><span id="auth-bar" class="ml-2 flex items-center gap-2"></span></nav>
+</div>
+</header>
+<section class="grid-bg border-b border-slate-800">
+<div class="max-w-7xl mx-auto px-4 py-16 text-center">
+<h1 class="text-4xl md:text-5xl font-extrabold tracking-tight"><span class="bg-gradient-to-r from-emerald-400 to-cyan-300 bg-clip-text text-transparent">Support</span> any developer</h1>
+<p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">Create <span class="text-emerald-300 mono">dsgx.pages.dev/&lt;yourname&gt;</span> — accept crypto or card. Funds go <strong class="text-slate-200">directly to your Web3 wallet</strong>, spend anytime.</p>
+<div class="mt-8 flex flex-wrap justify-center gap-3">
+<button id="cta-connect" class="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-bold hover:opacity-90">Connect Wallet + GitHub → Create Profile</button>
+<a href="#how" class="px-6 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800">How it works</a>
+</div>
+<div class="mt-6 flex flex-wrap justify-center gap-2 text-xs mono">
+<a href="/ABsUP" class="px-3 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-emerald-300">dsgx.pages.dev/ABsUP</a>
+<span class="px-3 py-1.5 rounded-full bg-slate-900 border border-slate-700 text-slate-500">dsgx.pages.dev/you</span>
+</div>
+</div>
+</section>
+<section id="how" class="max-w-7xl mx-auto px-4 py-14">
+<div class="grid md:grid-cols-3 gap-6">
+<div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6"><i class="fa-solid fa-wallet text-emerald-400 text-2xl"></i><h3 class="font-bold mt-3">1. Web3 Login</h3><p class="text-sm text-slate-400 mt-2">Connect MetaMask → SIWE sign. No password. Your EVM address is your account.</p></div>
+<div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6"><i class="fa-brands fa-github text-violet-400 text-2xl"></i><h3 class="font-bold mt-3">2. Verify GitHub</h3><p class="text-sm text-slate-400 mt-2">Connect GitHub → verified badge + your <span class="mono text-emerald-300">dsgx.pages.dev/&lt;login&gt;</span> auto-created.</p></div>
+<div class="rounded-2xl border border-slate-800 bg-slate-900/50 p-6"><i class="fa-solid fa-coins text-amber-400 text-2xl"></i><h3 class="font-bold mt-3">3. Get Supported</h3><p class="text-sm text-slate-400 mt-2">Share link. Supporters pay via crypto (direct) or card (Stripe → USDC to your wallet).</p></div>
+</div>
+<div class="mt-8 rounded-2xl border border-slate-800 bg-slate-950 p-6">
+<h3 class="font-bold mb-3">Your Profile Preview</h3>
+<div id="profile-preview" class="text-sm text-slate-500">Connect wallet + GitHub to see preview</div>
+</div>
+</section>
+<section class="border-y border-slate-800 bg-slate-900/30">
+<div class="max-w-7xl mx-auto px-4 py-12">
+<h3 class="font-bold mb-3">Powered by GDMx</h3>
+<p class="text-sm text-slate-400">Any site can embed donations: <code class="mono text-cyan-300">&lt;script src="https://gdmx.pages.dev/sdk/v1/gdmx.js"&gt;</code></p>
+<pre class="mt-3 mono text-xs bg-slate-950 border border-slate-800 rounded-lg p-3 overflow-x-auto">const pay = new GDMxGateway({ merchantAddress: "0xYourWeb3Address" });
+pay.checkout({ amountUSD: 5 });</pre>
+</div>
+</section>
+<footer class="border-t border-slate-800 py-10">
+<div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3"><div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-cyan-400 flex items-center justify-center font-bold text-slate-950 text-sm"><i class="fa-solid fa-hand-holding-heart"></i></div><span class="text-sm text-slate-400">DSGx — MIT · By <a href="https://github.com/ABsUP" class="text-emerald-300 hover:underline">@ABsUP</a> & <a href="https://github.com/OpenCodeWEB" class="text-emerald-300 hover:underline">@OpenCodeWEB</a></span></div>
+<div class="flex items-center gap-4 text-sm text-slate-500"><a href="https://gdbx.pages.dev" class="hover:text-violet-300">GDBx</a><a href="/Dashboard" class="hover:text-cyan-300">Dashboard</a><a href="https://gdmx.pages.dev" class="hover:text-amber-300">GDMx</a></div>
+</div>
+</footer>
+<script type="module" src="/js/dsgx-auth.js"></script>
+</body>
+</html>
