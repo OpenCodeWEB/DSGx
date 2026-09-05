@@ -51,8 +51,12 @@ ${profile.notFound ? `
 `}
 </main>
 <script>window.DSGX_PROFILE = ${JSON.stringify(profile)};</script>
-<script src="https://gdmx.pages.dev/sdk/v1/gdmx.js"></script>
-<script>
+<script type="module">
+import { GDMxGateway } from "https://gdmx.pages.dev/sdk/v1/gdmx.js";
+window.GDMxGateway = GDMxGateway;
+</script>
+<script type="module">
+import { GDMxGateway } from "https://gdmx.pages.dev/sdk/v1/gdmx.js";
 const profile = window.DSGX_PROFILE;
 if (!profile.notFound) {
   const pay = new GDMxGateway({ merchantAddress: profile.web3Addr || profile.addr });
