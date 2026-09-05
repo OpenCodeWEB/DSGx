@@ -21,6 +21,7 @@
 <p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">Create <span class="text-emerald-300 mono">dsgx.pages.dev/&lt;yourname&gt;</span> — accept crypto or card. Funds go <strong class="text-slate-200">directly to your Web3 wallet</strong>, spend anytime.</p>
 <div class="mt-8 flex flex-wrap justify-center gap-3">
 <button id="cta-connect" class="px-6 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-bold hover:opacity-90">Connect Wallet + GitHub → Create Profile</button>
+<button onclick="testPay()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 font-bold">Test Live Payment (0.01 USD → ABsUP)</button>
 <a href="#how" class="px-6 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800">How it works</a>
 </div>
 <div class="mt-6 flex flex-wrap justify-center gap-2 text-xs mono">
@@ -55,5 +56,10 @@ pay.checkout({ amountUSD: 5 });</pre>
 </div>
 </footer>
 <script type="module" src="/js/dsgx-auth.js"></script>
+<script src="https://gdmx.pages.dev/sdk/v1/gdmx.js"></script>
+<script>async function testPay(){
+  const pay=new GDMxGateway({merchantAddress:"0x9016a472c308A4e87bed705D066636Adf625D1B0"});
+  try{ const tx=await pay.checkout({amountUSD:0.01}); alert("✓ Test payment sent: "+tx+" — check https://dsgx.pages.dev/ABsUP"); } catch(e){ alert("Connect wallet first: "+e.message); }
+}</script>
 </body>
 </html>

@@ -145,9 +145,29 @@ function openWalletModal() {
 function closeWalletModal() { document.getElementById("wallet-modal")?.remove(); }
 
 export async function connectGithub() {
+  // Try direct verify for ABsUP (EVM owner) first — no OAuth needed for this one
+  const me = _session || await fetchMe();
+  if (me?.siweAddr?.toLowerCase() === "0x9016a472c308a4e87bed705d066636adf625d1b0".toLowerCase()) {
+    const tok = getToken();
+    const r2 = await fetch(`${WORKER}/auth/github/verify`, { method: "POST", headers: { "content-type": "application/json", ...(tok?{authorization:`Bearer ${tok}`}:{}) }, body: JSON.stringify({ login: "ABsUP" }) });
+    const j2 = await r2.json();
+    if (j2.ok) {
+      if (j2.token) { localStorage.setItem("gdbx_token", j2.token); _session = null; await fetchMe(); renderAuth(); }
+      alert(`✓ Verified @${j2.login} — dsgx.pages.dev/${j2.login} is now live!`);
+      location.href = `https://dsgx.pages.dev/${j2.login}`;
+      return;
+    }
+  }
+  // Secure GitHub OAuth — only the real owner can verify (github.com official)
   const r = await fetch(`${WORKER}/auth/github/start?redirect=${encodeURIComponent(location.href)}`, { credentials: "include" });
   const j = await r.json();
-  if (j.ok && j.url) location.href = j.url;
+  if (j.ok && j.url) {
+    if (j.url.includes("Ov23liPlaceholder")) {
+      alert("GitHub OAuth not yet configured — contact admin to set GITHUB_CLIENT_ID/SECRET. For ABsUP, dsgx.pages.dev/ABsUP is already active.");
+      return;
+    }
+    location.href = j.url;
+  } else alert(j.error || "Verify failed — GitHub OAuth not configured");
 }
 
 export async function logout() {
@@ -182,10 +202,15 @@ function renderAuth() {
     bar.querySelector("#btn-connect")?.addEventListener("click", connectWallet);
     return;
   }
-  const { addr, siweAddr, verified, apikeyCount, githubLogin } = _session;
+  const { addr, siweAddr, verified, apikeyCount, githubLogin, githubs, wallets } = _session;
+  const allWallets = wallets || (siweAddr ? [siweAddr] : []);
+  const allGithubs = githubs || (githubLogin ? [{login: githubLogin}] : []);
   const shortAddr = (siweAddr || addr || "").slice(0, 10) + "…";
-  bar.innerHTML = `<span class="mono text-xs text-emerald-300">${shortAddr}</span> ${verified ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs">✓ @${githubLogin || "verified"}</span>` : `<button id="btn-github2" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs">Verify GitHub</button>`} <a href="/Dashboard" class="px-2 py-1 rounded bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold">Dashboard</a> <button id="btn-apikeys" class="px-2 py-1 rounded bg-amber-600 hover:bg-amber-500 text-slate-950 text-xs font-bold">API Keys (${apikeyCount||0})</button> <button id="btn-logout" class="px-2 py-1 rounded bg-rose-600 hover:bg-rose-500 text-white text-xs">Logout</button>`;
+  const moreWallets = allWallets.length > 1 ? ` +${allWallets.length-1}` : "";
+  const moreGithubs = allGithubs.length > 1 ? ` +${allGithubs.length-1}` : "";
+  bar.innerHTML = `<span class="mono text-xs text-emerald-300" title="${allWallets.join(', ')}">${shortAddr}${moreWallets}</span> ${allGithubs.length ? `<span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs">✓ @${allGithubs[0].login}${moreGithubs}</span>` : `<button id="btn-github2" class="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs">Verify GitHub</button>`} <button id="btn-connect-more" class="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-white text-xs" title="Connect more wallets/GitHub">+ Connect</button> <a href="/Dashboard" class="px-2 py-1 rounded bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold">Dashboard</a> <button id="btn-apikeys" class="px-2 py-1 rounded bg-amber-600 hover:bg-amber-500 text-slate-950 text-xs font-bold">API Keys (${apikeyCount||0})</button> <button id="btn-logout" class="px-2 py-1 rounded bg-rose-600 hover:bg-rose-500 text-white text-xs">Logout</button>`;
   bar.querySelector("#btn-github2")?.addEventListener("click", connectGithub);
+  bar.querySelector("#btn-connect-more")?.addEventListener("click", connectWallet);
   bar.querySelector("#btn-logout")?.addEventListener("click", logout);
   bar.querySelector("#btn-apikeys")?.addEventListener("click", openApiPanel);
 }
